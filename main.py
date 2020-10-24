@@ -1,11 +1,11 @@
 import psycopg2
 from flask import Flask, request
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 app = Flask(__name__) #create a flask app
+cors = CORS(app)
 
 @app.route('/', methods=['POST', 'GET'])
-@cross_origin()
 def verifyLogIn():
     incomingData = request.get_json()
     username = incomingData['username']
