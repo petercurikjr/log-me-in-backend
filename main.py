@@ -1,12 +1,12 @@
 import psycopg2
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from Crypto.Hash import SHA256
 from Crypto.Random import get_random_bytes
 
 app = Flask(__name__)  # create a flask app
 app.config['CORS_HEADERS'] = 'Content-Type'
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, support_credentials=True,resources={r"/*": {"origins": "*"}})
 
 def dbConnect():
     print('DB connect: ', end='')
@@ -33,6 +33,7 @@ def printDB(cursor):
         print(data)
 
 @app.route('/verify', methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True)
 def verifyLogIn():
     incomingData = request.get_json()
 
@@ -57,6 +58,7 @@ def verifyLogIn():
 
 
 @app.route('/register',methods=['POST'])
+@cross_origin(supports_credentials=True)
 def registerUser():
     incomingData = request.get_json()
 
@@ -79,5 +81,4 @@ def registerUser():
     return 'server: ok', 201
 
 if __name__ == '__main__':
-    initApp()
     app.run(threaded=False, processes=1)
