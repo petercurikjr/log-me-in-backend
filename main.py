@@ -35,6 +35,7 @@ def printDB(cursor):
 @app.route('/verify', methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def verifyLogIn():
+    CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
     incomingData = request.get_json()
 
     username = incomingData['username']
@@ -58,8 +59,9 @@ def verifyLogIn():
 
 
 @app.route('/register',methods=['POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin(origin='*',supports_credentials=True)
 def registerUser():
+    CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
     incomingData = request.get_json()
 
     username = incomingData['username']
