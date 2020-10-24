@@ -6,8 +6,17 @@ from Crypto.Random import get_random_bytes
 
 app = Flask(__name__)  # create a flask app
 app.config['CORS_HEADERS'] = 'Content-Type'
-CORS(app, support_credentials=True,resources={r"/*": {"origins": "*"}})
+CORS(app)
 
+@app.route('/verify', methods=['POST', 'GET'])
+def verifyLogIn():
+    incomingData = request.get_json()
+    username = incomingData['username']
+    password = incomingData['password']
+    return username + ' ' + password, 201
+
+
+'''
 def dbConnect():
     print('DB connect: ', end='')
     try:
@@ -92,6 +101,6 @@ def registerUser():
     printDB(cursor)
     dbDisconnect(connection, cursor)
     return 'server: ok', 201
-
+'''
 if __name__ == '__main__':
     app.run(threaded=False, processes=1)
