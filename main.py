@@ -1,5 +1,5 @@
 import psycopg2
-from flask import Flask, request
+from flask import Flask, request, make_response
 from flask_cors import CORS, cross_origin
 from Crypto.Hash import SHA256
 from Crypto.Random import get_random_bytes
@@ -32,10 +32,19 @@ def printDB(cursor):
     for data in allData:
         print(data)
 
+def cors_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
 @app.route('/verify', methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True)
 def verifyLogIn():
-    CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
+    if request.method == 'OPTIONS':
+        return cors_response()
+
     incomingData = request.get_json()
 
     username = incomingData['username']
@@ -61,7 +70,9 @@ def verifyLogIn():
 @app.route('/register',methods=['POST'])
 @cross_origin(origin='*',supports_credentials=True)
 def registerUser():
-    CORS(app, support_credentials=True, resources={r"/*": {"origins": "*"}})
+    if request.method == 'OPTIONS':
+        return cors_response()
+    
     incomingData = request.get_json()
 
     username = incomingData['username']
