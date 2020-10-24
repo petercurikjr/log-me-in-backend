@@ -31,7 +31,7 @@ def printDB(cursor):
 
 
 app = Flask(__name__)  # create a flask app
-CORS(app)  # enables javascript to interact with this server. for more, see enable-cors.org/server_flask.html
+cors = CORS(app)  # enables javascript to interact with this server. for more, see enable-cors.org/server_flask.html
 
 
 @app.route('/verify', methods=['POST', 'GET'])
@@ -70,7 +70,7 @@ def registerUser():
     hash = SHA256.new()
     hash.update(saltedPassword)
     connection, cursor = dbConnect()
-    cursor.execute("DROP TABLE USERCREDENTIALS")
+    #cursor.execute("DROP TABLE USERCREDENTIALS")
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS USERCREDENTIALS(USERNAME VARCHAR, PASSWORD_HASHED VARCHAR, SALT BYTEA)")
     cursor.execute("INSERT INTO USERCREDENTIALS(USERNAME, PASSWORD_HASHED, SALT) VALUES (%s, %s, %s)", (username, hash.hexdigest(), salt))
