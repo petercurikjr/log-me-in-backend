@@ -21,8 +21,6 @@ py2exe==0.9.2.2
 pycparser==2.20
 pycrypto==2.6.1
 pycryptodomex==3.9.8
-pyinstaller==4.1.dev0+2f8eaf05c7
-pyinstaller-hooks-contrib==2020.9
 pylint==2.5.2
 PyQt5==5.15.0
 PyQt5-sip==12.8.0
