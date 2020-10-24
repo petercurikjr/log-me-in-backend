@@ -4,6 +4,9 @@ from flask_cors import CORS
 from Crypto.Hash import SHA256
 from Crypto.Random import get_random_bytes
 
+app = Flask(__name__)  # create a flask app
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 def dbConnect():
     print('DB connect: ', end='')
@@ -28,11 +31,6 @@ def printDB(cursor):
     allData = cursor.fetchall()
     for data in allData:
         print(data)
-
-
-app = Flask(__name__)  # create a flask app
-cors = CORS(app)  # enables javascript to interact with this server. for more, see enable-cors.org/server_flask.html
-
 
 @app.route('/verify', methods=['POST', 'GET'])
 def verifyLogIn():
@@ -81,4 +79,5 @@ def registerUser():
     return 'server: ok', 201
 
 if __name__ == '__main__':
+    initApp()
     app.run(threaded=False, processes=1)
