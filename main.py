@@ -13,7 +13,7 @@ def verifyLogIn():
     incomingData = request.get_json()
     username = incomingData['username']
     password = incomingData['password']
-    return username + ' ' + password, 201
+    return 'ok', 201
 
 
 '''
