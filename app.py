@@ -72,8 +72,7 @@ def registerUser():
     # cursor.execute("DROP TABLE USERCREDENTIALS")
     cursor.execute("CREATE TABLE IF NOT EXISTS USERCREDENTIALS(USERNAME VARCHAR, PASSWORD_HASHED VARCHAR, SALT BYTEA)")
     cursor.execute("SELECT USERNAME from USERCREDENTIALS where USERNAME=%s", (username,))
-    check = cursor.fetchall()
-    if check != None:
+    if cursor.fetchone() is not None:
         return 'name already exists', 404
 
     cursor.execute("INSERT INTO USERCREDENTIALS(USERNAME, PASSWORD_HASHED, SALT) VALUES (%s, %s, %s)",(username, hash.hexdigest(), salt))
