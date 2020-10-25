@@ -40,6 +40,7 @@ def verifyLogIn():
     username = incomingData['username']
     password = incomingData['password']
     connection, cursor = dbConnect()
+    cursor.execute("CREATE TABLE IF NOT EXISTS USERCREDENTIALS(USERNAME VARCHAR, PASSWORD_HASHED VARCHAR, SALT BYTEA)")
     cursor.execute("SELECT PASSWORD_HASHED, SALT from USERCREDENTIALS where USERNAME=%s", (username,))
     dbData = cursor.fetchall()
     salt = dbData[0][1]
