@@ -4,6 +4,8 @@ from flask_cors import CORS
 from Crypto.Hash import SHA256
 from Crypto.Random import get_random_bytes
 
+from settings import DB_NAME, DB_USER, DB_HOST, DB_PASSWORD
+
 # create a flask app
 app = Flask(__name__)
 # allow incoming requests
@@ -14,7 +16,8 @@ def dbConnect():
     print('DB connect: ', end='')
     try:
         connection = psycopg2.connect(
-            "dbname='d34ct5fc6m9li0' user='epebpvfyedbkvc' host='ec2-54-246-85-151.eu-west-1.compute.amazonaws.com' password='9f9418d9f3857783f122b36f92b79ce39a7ae3257e2b397e61fd5965a1aabb1f'")
+            "dbname='{}' user='{}' host='{}' password='{}'".format(DB_NAME, DB_USER, DB_HOST, DB_PASSWORD)
+        )
         print('OK')
         cursor = connection.cursor()
         return connection, cursor
